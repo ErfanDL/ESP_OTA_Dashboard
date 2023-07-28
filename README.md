@@ -11,6 +11,11 @@ an efficient and user friendly OTA server equipped with a powerful WEB UI, desig
   - [Show All Devices](#show-all-devices)
 - [Server Installation](#server-installation)
   - [Prerequisites](#prerequisites)
+  - [Clone the GitHub Repository](#clone-the-github-repository)
+  - [Navigate into the Project Directory](#navigate-into-the-project-directory)
+  - [Create a New package.json File](#create-a-new-packagejson-file)
+  - [Install Required Node.js Packages](#install-required-nodejs-packages)
+  - [Run the Node.js App](#run-the-nodejs-app)
 - [Default Username and Password for the Login Page](#default-username-and-password-for-the-login-page)
 - [Default Password for Flash Firmware and Flush All Devices](#default-password-for-flash-firmware-and-flush-all-devices)
 
