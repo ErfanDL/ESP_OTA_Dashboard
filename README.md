@@ -21,7 +21,7 @@ an efficient and user friendly OTA server equipped with a powerful WEB UI, desig
 - [Flash Firmware Through Web UI](#flash-firmware-through-web-ui)
 - [Misc](#misc)
 
-## Features
+# Features
 - Lightweight Node.js server
 - Support both ESP8266 and ESP32
 - User friendly WEB UI to manage Firmware updates remotely
@@ -35,10 +35,10 @@ an efficient and user friendly OTA server equipped with a powerful WEB UI, desig
 - Load registered devices at server startup
 - Custom library for Arduino to support ESP8266 and ESP32 [ESPOTADASH](https://github.com/ErfanDL/ESPOTADASH_Library)
 
-## Devices list
+# Devices list
 By default, 6 registered devices are displayed. If you have more than 6 devices, click on the 'Show All Devices' button to see the list of all devices.
 
-## Screenshots
+# Screenshots
 - Login page
 ![](doc/login.png)
 - OTA and Devices
@@ -46,7 +46,7 @@ By default, 6 registered devices are displayed. If you have more than 6 devices,
 - Show All Devices
 ![](doc/all.jpg)
 
-## Server installation
+# Server installation
 Prerequisites
 
 1. Before proceeding, make sure you have the following prerequisites:
@@ -79,17 +79,17 @@ The app will start running on port **3000**, as specified in the code.
 
 Open a web browser and visit **http://localhost:3000** to access the WEB UI.
 
-## Default Username and Password for the Login page
+# Default Username and Password for the Login page
 Default Username and Password for the login page are: **admin**
 
 You can change the default Username and Password by editing lines 40 and 41 in the index.js server file.
 
-## Default Password for Flash Firmware and Flush All Devices
+# Default Password for Flash Firmware and Flush All Devices
 The default Password for Flash Firmware and Flush All Devices is: **admin**
 
 You can also modify it on line 63 in the index.js server file.
 
-## Arduino instruction
+# Arduino instruction
 
 1. Download and install the ESPOTADASH arduino library from this link: [ESPOTADASH Library](https://github.com/ErfanDL/ESPOTADASH_Library)
 
@@ -126,7 +126,7 @@ void loop() {
 
 Now you should see your device in the Dashboard WEB UI devices list.
 
-## Flash Firmware through Web UI
+# Flash Firmware through Web UI
 
 you can flash the firmware through the Web UI by exporting the BIN firmware file from the Arduino IDE and uploading it in the ESP Firmware Flasher WEB UI.
 
@@ -142,7 +142,7 @@ you can flash the firmware through the Web UI by exporting the BIN firmware file
 
 ![](/doc/ff.jpg)
 
-## Misc
+# Misc
 If you like my work and want to support me, you can send me a donation via crypto:
 
 Ethereum: 0x283D333C14500dDB93aEE219D2AC1ab3a95ADd5E
