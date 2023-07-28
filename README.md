@@ -128,5 +128,14 @@ Now you should see your device in the Dashboard WEB UI devices list.
 
 Now you can flash the firmware through the Web UI by exporting the BIN firmware file from the Arduino IDE and uploading it in the ESP Firmware Flasher WEB UI.
 
-1. Select the bin file by clickng the Upload Firmware button
+1. Select the bin file by clicking the Upload Firmware button
 
+![](/doc/uf.jpg)
+
+2. Select your ESP from the devices list:
+
+![](/doc/se.jpg)
+
+3. Click the Flash Firmware button and enter the Password to start OTA process
+
+![](/doc/ff.jpg)
