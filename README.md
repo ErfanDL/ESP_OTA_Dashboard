@@ -53,7 +53,7 @@ Prerequisites
 
 The app will start running on port **3000**, as specified in the code.
 
-Open a web browser and visit **http://localhost:3000** to access the login page.
+Open a web browser and visit **http://localhost:3000** to access the WEB UI.
 
 ## Default username and password for Login page
 default username and password for login page is: **admin**
