@@ -29,7 +29,11 @@ By default, 6 registered devices are displayed. If you have more than 6 devices,
 ## Server installation
 Prerequisites
 
-1. Before proceeding, make sure you have the following prerequisites: Node.js and npm installed on your system.
+1. Before proceeding, make sure you have the following prerequisites:
+
+- Node.js and npm installed on your system.
+  
+- installation instruction: [Node.js and NPM](https://github.com/nodesource/distributions#debinstall)
 
 2. Clone the GitHub repository using the following command:
 
