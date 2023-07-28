@@ -141,7 +141,6 @@ Now you can flash the firmware through the Web UI by exporting the BIN firmware 
 ![](/doc/ff.jpg)
 
 ## Misc
-
 If you like my work and want to support me, you can send me a donation via crypto:
 
 Ethereum: 0x283D333C14500dDB93aEE219D2AC1ab3a95ADd5E
