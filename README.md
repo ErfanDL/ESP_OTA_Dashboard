@@ -29,5 +29,12 @@ By default, 6 registered devices are displayed. If you have more than 6 devices,
 ## Server installation
 Prerequisites
 
-Before proceeding, make sure you have the following prerequisites:
-Node.js and npm installed on your system.
+1. Before proceeding, make sure you have the following prerequisites: Node.js and npm installed on your system.
+
+2. Clone the GitHub repository using the following command:
+
+`git clone https://github.com/ErfanDL/ESP_OTA_Dashboard.git`
+
+3. Navigate into the project directory using the following command:
+
+`cd ESP_OTA_Dashboard`
