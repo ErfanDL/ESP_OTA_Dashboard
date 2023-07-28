@@ -38,3 +38,29 @@ Prerequisites
 3. Navigate into the project directory using the following command:
 
 `cd ESP_OTA_Dashboard`
+
+4. Create a new package.json file for managing project dependencies using the following command:
+
+`npm init -y`
+
+5. Install the required Node.js packages:
+
+`npm install express http path fs body-parser multer express-session`
+
+6. In the terminal, run the Node.js app using the following command:
+
+`node index.js`
+
+The app will start running on port **3000**, as specified in the code.
+
+Open a web browser and visit **http://localhost:3000** to access the login page.
+
+## Default username and password Login page
+default username and password for login page is: **admin** 
+
+you can change the default username and password by editing the lines 40 and 41 in index.js server file.
+
+## Default password for the Flash Firmware and Flush All Devices
+the default password for the Flash Firmware and Flush All Devices is: **admin** 
+
+you can also modiy it on line 63 in index.js server file
