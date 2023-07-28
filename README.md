@@ -25,3 +25,9 @@ By default, 6 registered devices are displayed. If you have more than 6 devices,
 ![](doc/devices.jpg)
 - Show All Devices
 ![](doc/all.jpg)
+
+## Server installation
+Prerequisites
+
+Before proceeding, make sure you have the following prerequisites:
+Node.js and npm installed on your system.
