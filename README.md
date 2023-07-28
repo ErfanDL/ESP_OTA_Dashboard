@@ -2,22 +2,24 @@
 an efficient and user friendly OTA server equipped with a powerful WEB UI, designed to effortlessly manage both your ESP8266 and ESP32 Firmware and Status. This OTA solution simplifies the process of updating and monitoring your ESP devices.
 
 # Table of Contents
-- [Features](#features)
-- [Devices list](#devices-list)
-- [Screenshots](#screenshots)
-- [Server installation](#server-installation)
-  - [Prerequisites](#prerequisites)
-  - [Clone the GitHub repository](#clone-the-github-repository)
-  - [Navigate into the project directory](#navigate-into-the-project-directory)
-  - [Create a new package.json file](#create-a-new-packagejson-file)
-  - [Install the required Node.js packages](#install-the-required-nodejs-packages)
-  - [Run the Node.js app](#run-the-nodejs-app)
-- [Default Username and Password for the Login page](#default-username-and-password-for-the-login-page)
-- [Default Password for Flash Firmware and Flush All Devices](#default-password-for-flash-firmware-and-flush-all-devices)
-- [Arduino instruction](#arduino-instruction)
-  - [Download and install the ESPOTADASH arduino library](#download-and-install-the-espotadash-arduino-library)
-  - [Load the example Arduino sketch](#load-the-example-arduino-sketch)
 
+- [Features](#features)
+- [Devices List](#devices-list)
+- [Screenshots](#screenshots)
+- [Server Installation](#server-installation)
+  - [Prerequisites](#prerequisites)
+  - [Clone the GitHub Repository](#clone-the-github-repository)
+  - [Navigate into the Project Directory](#navigate-into-the-project-directory)
+  - [Create a New package.json File](#create-a-new-packagejson-file)
+  - [Install the Required Node.js Packages](#install-the-required-nodejs-packages)
+  - [Run the Node.js App](#run-the-nodejs-app)
+  - [Default Username and Password for the Login Page](#default-username-and-password-for-the-login-page)
+  - [Default Password for Flash Firmware and Flush All Devices](#default-password-for-flash-firmware-and-flush-all-devices)
+- [Arduino Instruction](#arduino-instruction)
+  - [Download and Install the ESPOTADASH Arduino Library](#download-and-install-the-espotadash-arduino-library)
+  - [Load the Example Arduino Sketch](#load-the-example-arduino-sketch)
+- [Flash Firmware Through Web UI](#flash-firmware-through-web-ui)
+- [Misc](#misc)
 
 ## Features
 - Lightweight Node.js server
