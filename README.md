@@ -140,7 +140,7 @@ Now you can flash the firmware through the Web UI by exporting the BIN firmware 
 
 ![](/doc/ff.jpg)
 
-#Misc
+## Misc
 
 If you like my work and want to support me, you can send me a donation via crypto:
 
