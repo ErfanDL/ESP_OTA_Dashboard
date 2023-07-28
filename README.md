@@ -78,12 +78,49 @@ The app will start running on port **3000**, as specified in the code.
 
 Open a web browser and visit **http://localhost:3000** to access the WEB UI.
 
-## Default Username and Password for the Login page:
+## Default Username and Password for the Login page
 Default Username and Password for the login page are: **admin**
 
 You can change the default Username and Password by editing lines 40 and 41 in the index.js server file.
 
-## Default Password for Flash Firmware and Flush All Devices:
+## Default Password for Flash Firmware and Flush All Devices
 The default Password for Flash Firmware and Flush All Devices is: **admin**
 
 You can also modify it on line 63 in the index.js server file.
+
+## Arduino instruction
+
+1. Download and install the ESPOTADASH arduino library from this link: [ESPOTADASH Library](https://github.com/ErfanDL/ESPOTADASH_Library)
+
+2. Load the below example sketch in Arduino IDE and upload the sketch to ESP8266 or ESP32
+
+Do not forget to edit ssid, password, serverAddress According to your Wi-Fi network and server IP address
+
+### Notice: edit the hostName for each ESP8266 or ESP32 devices. If you assign the same hostname in two or more devices, they will conflict with each other.
+
+### Example Arduino Sketch
+
+```cpp
+#include "ESPOTADASH.h"
+
+const char* ssid = "Your_SSID";
+const char* password = "Your_WiFi_Password";
+const char* hostName = "ESP8266"; // You can modify this to your desired host name
+const char* serverAddress = "http://Your_Server_IP:3000"; // Replace with your Node.js server address
+
+unsigned long heartbeatInterval = 10000; // Modify the heartbeat interval (e.g., 10 seconds)
+unsigned long registrationInterval = 30000; // Modify the registration interval (e.g., 30 seconds)
+const char* firmwareVersion = "1.0.0"; // Modify the firmware version
+
+ESPOTADASH ota(ssid, password, hostName, serverAddress, heartbeatInterval, registrationInterval, firmwareVersion);
+
+void setup() {
+  ota.begin();
+}
+
+void loop() {
+  ota.loop();
+}
+`````
+
+Now you should see your device in the Dashboard WEB UI devices list.
