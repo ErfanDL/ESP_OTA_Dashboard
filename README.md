@@ -12,6 +12,7 @@ an efficient and user friendly OTA server equipped with a powerful WEB UI, desig
 - Display the number of Registered, Online and Offline devices in WEB UI
 - Monitor the Online/Offline status of devices in WEB UI
 - Option to Flush all registered devcies
+- Load registered devices at server startup
 - Custom library for Arduino to support ESP8266 and ESP32 [ESPOTADASH](https://github.com/ErfanDL/ESPOTADASH_Library)
 
 ## Device lists
