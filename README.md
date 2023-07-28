@@ -59,12 +59,12 @@ The app will start running on port **3000**, as specified in the code.
 
 Open a web browser and visit **http://localhost:3000** to access the WEB UI.
 
-## Default username and password for the Login page:
-Default username and password for the login page are: **admin**
+## Default Username and Password for the Login page:
+Default Username and Password for the login page are: **admin**
 
-You can change the default username and password by editing lines 40 and 41 in the index.js server file.
+You can change the default Username and Password by editing lines 40 and 41 in the index.js server file.
 
-## Default password for Flash Firmware and Flush All Devices:
-The default password for Flash Firmware and Flush All Devices is: **admin**
+## Default Password for Flash Firmware and Flush All Devices:
+The default Password for Flash Firmware and Flush All Devices is: **admin**
 
 You can also modify it on line 63 in the index.js server file.
