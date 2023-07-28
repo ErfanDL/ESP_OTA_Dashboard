@@ -15,7 +15,7 @@ an efficient and user friendly OTA server equipped with a powerful WEB UI, desig
 - Load registered devices at server startup
 - Custom library for Arduino to support ESP8266 and ESP32 [ESPOTADASH](https://github.com/ErfanDL/ESPOTADASH_Library)
 
-## Device lists
+## Devices list
 By default, 6 registered devices are displayed. If you have more than 6 devices, click on the 'Show All Devices' button.
 
 ## Screenshots
