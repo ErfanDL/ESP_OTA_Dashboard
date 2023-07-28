@@ -126,7 +126,7 @@ Now you should see your device in the Dashboard WEB UI devices list.
 
 ## Flash Firmware through Web UI
 
-Now you can Flash the Firmware through Web UI by exporting the BIN Firmware file from the Arduino IDE and upload it in WEB UI ESP Firmware Flasher.
+Now you can flash the firmware through the Web UI by exporting the BIN firmware file from the Arduino IDE and uploading it in the ESP Firmware Flasher WEB UI.
 
 1. Select the bin file by clickng the Upload Firmware button
 
