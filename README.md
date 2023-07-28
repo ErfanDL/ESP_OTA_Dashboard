@@ -9,4 +9,6 @@ an efficient and user friendly OTA server equipped with a powerful WEB UI, desig
 - Secured Flash Firmware by password in WEB UI
 - Register devices to server by hostname
 - Display the registered devices information in WEB UI: MAC address, IP address, Signal strength, Firmware version, and hostname
+- Display the number of Registered, Online and Offline devices in WEB UI
 - Monitor the Online/Offline status of devices in WEB UI
+- Option to Flush all registered devcies
