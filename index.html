@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>ESP Firmware Flasher</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <style>
+         /* Add the CSS code here */
+         :root {
+         --primary-color: #FFA500;
+         --secondary-color: #4CAF50;
+         --danger-color: #f44336;
+         --dark-color: #1a1a1a;
+         --light-color: #fff;
+         }
+         body {
+         background-color: var(--dark-color);
+         color: var(--light-color);
+         font-family: Arial, sans-serif;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-content: center;
+         min-height: 100vh;
+         margin: 0;
+         }
+         header {
+         position: fixed;
+         top: 10px;
+         right: 10px;
+         display: flex;
+         gap: 10px;
+         }
+         .action-button {
+         display: inline-block;
+         padding: 10px 20px;
+         background-color: var(--primary-color);
+         color: var(--light-color);
+         border: none;
+         cursor: pointer;
+         border-radius: 4px;
+         transition: background-color 0.3s;
+         }
+         .action-button.logout-btn {
+         background-color: var(--danger-color);
+         }
+         .action-button.show-all-btn {
+         background-color: var(--secondary-color);
+         }
+         .action-button:hover {
+         background-color: #d32f2f;
+         }
+         .action-button.flush-btn:hover {
+         background-color: #FF8C00;
+         }
+         .action-button.show-all-btn:hover {
+         background-color: #45a049;
+         }
+         .container {
+         display: flex;
+         justify-content: center;
+         width: 90%;
+         max-width: 1200px;
+         padding: 20px;
+         border: 2px solid #ccc;
+         background-color: var(--dark-color);
+         border-radius: 10px;
+         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+         }
+         .left-container,
+         .right-container {
+         flex: 1;
+         text-align: center;
+         }
+         .left-container {
+         margin-right: 20px;
+         border-right: 2px solid #ccc;
+         padding-right: 20px;
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-content: center;
+         }
+         .right-container {
+         margin-left: 20px;
+         padding-left: 20px;
+         }
+         h1 {
+         margin-bottom: 20px;
+         color: var(--primary-color);
+         }
+         label {
+         display: block;
+         margin-bottom: 10px;
+         }
+         input[type="file"] {
+         display: none;
+         }
+         .upload-btn {
+         display: inline-block;
+         padding: 10px 20px;
+         background-color: var(--secondary-color);
+         color: var(--light-color);
+         border: none;
+         cursor: pointer;
+         border-radius: 4px;
+         transition: background-color 0.3s;
+         }
+         .upload-btn:hover {
+         background-color: #45a049;
+         }
+         #espList {
+         display: block;
+         width: 200px;
+         margin-bottom: 20px;
+         }
+         .flash-btn {
+         display: inline-block;
+         padding: 10px 20px;
+         background-color: #007bff;
+         color: var(--light-color);
+         border: none;
+         cursor: pointer;
+         border-radius: 4px;
+         transition: background-color 0.3s;
+         margin-bottom: 10px;
+         }
+         .flash-btn:hover {
+         background-color: #0056b3;
+         }
+         .device-info {
+         margin: 10px;
+         padding: 10px;
+         border: 1px solid #ccc;
+         border-radius: 4px;
+         display: inline-block;
+         }
+         .online {
+         color: var(--secondary-color);
+         }
+         .offline {
+         color: var(--danger-color);
+         }
+         .show-all-btn {
+         background-color: var(--secondary-color);
+         display: block;
+         padding: 10px 20px;
+         color: var(--light-color);
+         border: none;
+         cursor: pointer;
+         border-radius: 4px;
+         transition: background-color 0.3s;
+         }
+         .show-all-btn:hover {
+         background-color: #45a049;
+         }
+         .devices-layer {
+         display: none;
+         position: fixed;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background-color: rgba(0, 0, 0, 0.7);
+         backdrop-filter: blur(10px);
+         z-index: 999;
+         padding: 20px;
+         }
+         .devices-layer .devices-container {
+         max-height: 80%;
+         overflow-y: auto;
+         }
+         .devices-layer button {
+         display: inline-block;
+         padding: 10px 20px;
+         background-color: var(--danger-color);
+         color: var(--light-color);
+         border: none;
+         cursor: pointer;
+         border-radius: 4px;
+         transition: background-color 0.3s;
+         }
+         .devices-layer button:hover {
+         background-color: #d32f2f;
+         }
+         .device-info p {
+         margin: 5px 0;
+         }
+         .signal-strength {
+         color: #FFC107;
+         }
+         /* Smartphone view */
+         @media screen and (max-width: 600px) {
+         .container {
+         flex-direction: column;
+         align-items: stretch;
+         }
+         /* Hamburger menu for action buttons in smartphone mode */
+         .action-buttons {
+         display: none;
+         }
+         .hamburger-menu {
+         position: fixed;
+         top: 10px;
+         right: 10px;
+         background-color: var(--dark-color);
+         padding: 10px;
+         z-index: 999;
+         cursor: pointer;
+         border-radius: 4px;
+         }
+         .hamburger-menu span {
+         display: block;
+         width: 30px;
+         height: 4px;
+         background-color: var(--light-color);
+         margin-bottom: 5px;
+         border-radius: 2px;
+         }
+         .hamburger-menu.open {
+         background-color: rgba(255, 0, 0, 0.7);
+         }
+         .hamburger-menu.open span {
+         background-color: var(--light-color);
+         }
+         .action-buttons.open {
+         display: flex;
+         flex-direction: column;
+         gap: 10px;
+         position: fixed;
+         top: 50px;
+         right: 10px;
+         background-color: rgba(0, 0, 0, 0);
+         backdrop-filter: blur(10px);
+         padding: 10px;
+         z-index: 999;
+         border-radius: 4px;
+         }
+         .container .action-button {
+         width: auto;
+         padding: 10px 20px;
+         margin-bottom: 10px;
+         font-size: 14px; /* Adjust font size for smartphone view */
+         }
+         .devices-layer button {
+         padding: 10px 20px;
+         font-size: 14px; /* Adjust font size for smartphone view */
+         }
+         #espList {
+         width: auto;
+         margin-bottom: 10px;
+         }
+         .show-all-btn {
+         display: block;
+         width: auto;
+         }
+         .devices-layer {
+         padding: 10px;
+         }
+         /* Remove border in smartphone mode */
+         .left-container {
+         margin-left: 20px;
+         margin-top: 20px;
+         border-right: none;
+         padding-right: 0;
+         }
+         /* Center the right-container and move one step to the left */
+         .right-container {
+         text-align: center;
+         margin-left: -20px;
+         margin-top: 20px;
+         }
+         }
+         /* Non-smartphone view */
+         @media screen and (min-width: 601px) {
+         /* Remove fixed position for the action buttons */
+         .action-buttons {
+         position: static;
+         }
+         /* Adjust the container style to have a margin-top for the header */
+         .container {
+         margin-top: 50px;
+         }
+         .action-buttons {
+         display: flex;
+         justify-content: flex-end;
+         gap: 10px;
+         position: fixed;
+         top: 10px;
+         right: 10px;
+         z-index: 999;
+         }
+         }
+         .overlay {
+         display: none;
+         position: fixed;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background-color: rgba(0, 0, 0, 0.7);
+         backdrop-filter: blur(10px);
+         z-index: 998; /* Make sure it's below the action buttons */
+         }
+         /* Add the following style to make the overlay visible when active */
+         .overlay.active {
+         display: block;
+         }
+         a {
+         color: var(--primary-color);
+         text-decoration: none;
+         font-weight: bold;
+         margin-left: 10px;
+         }
+         a:hover {
+         color: #FF8C00;
+         }
+         /* Add the following style to align GitHub link and Server Version */
+         .header {
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         margin-top: 20px;
+         }
+         .header p, .header a {
+         margin: 0;
+         }
+         /* Add space between Server Version and GitHub link */
+         .header .spacer {
+         margin-left: 20px;
+         }
+      </style>
+   </head>
+   <body>
+      <div class="overlay"></div>
+      <!-- Hamburger menu for action buttons -->
+      <div class="hamburger-menu" onclick="toggleActionButtons()">
+         <span></span>
+         <span></span>
+         <span></span>
+      </div>
+      <!-- Action buttons for non-smartphone view -->
+      <div class="action-buttons">
+         <label class="action-button flush-btn" onclick="promptPasswordAndFlushAll()">Flush All Devices</label>
+         <label class="action-button show-all-btn" onclick="toggleRegisteredDevices()">Show All Devices</label>
+         <label class="action-button logout-btn" onclick="logout()">Logout</label>
+      </div>
+      <div class="container">
+         <section class="left-container">
+            <div id="notification" style="display: none;"></div>
+            <h1>ESP Firmware Flasher</h1>
+            <label for="firmware">Select Firmware:</label>
+            <label class="upload-btn" for="firmware">Upload Firmware</label>
+            <input type="file" id="firmware" name="firmwareFile" accept=".bin"><br>
+            <label for="espList">Select ESP:</label>
+            <select id="espList" onchange="fetchFirmwareVersion()">
+               <option value="">Select an ESP</option>
+            </select>
+            <br>
+            <label id="firmwareVersion">Firmware Version: N/A</label><br>
+            <button class="flash-btn" onclick="promptPasswordAndFlash()">Flash Firmware</button>
+            <div id="flashMessageContainer"></div>
+         </section>
+         <section class="right-container">
+            <h2>Registered Devices:</h2>
+            <div>
+               <p>Total Registered Devices: <span id="totalDevicesCount">0</span></p>
+               <p>Online Devices: <span id="onlineDevicesCount">0</span></p>
+               <p>Offline Devices: <span id="offlineDevicesCount">0</span></p>
+            </div>
+            <div id="deviceList">
+               <!-- Device status and firmware version will be dynamically added here -->
+            </div>
+            <div class="devices-layer" id="devicesLayer">
+               <!-- The layer to show all registered devices will be dynamically added here -->
+               <div class="devices-container">
+                  <!-- Dynamically display all registered devices here -->
+               </div>
+               <button onclick="toggleRegisteredDevices()">Close</button>
+            </div>
+         </section>
+      </div>
+      <div class="header">
+         <a href="https://github.com/ErfanDL/ESP_OTA_Dashboard" target="_blank">GitHub</a>
+         <span class="spacer"></span>
+         <p id="serverVersion">Server Version: Loading...</p>
+      </div>
+      <script>
+         const flashMessageContainer = document.getElementById('flashMessageContainer');
+                  // JavaScript function to toggle the hamburger menu and action buttons in smartphone mode
+         function toggleActionButtons() {
+         const hamburgerMenu = document.querySelector('.hamburger-menu');
+         const actionButtons = document.querySelector('.action-buttons');
+         const overlay = document.querySelector('.overlay'); // Add this line to select the overlay element
+         
+         hamburgerMenu.classList.toggle('open');
+         actionButtons.classList.toggle('open');
+         overlay.classList.toggle('active'); // Toggle the 'active' class on the overlay element
+         }
+         // Function to display the "OTA" message for 5 seconds and then remove it
+         function displayFlashMessage(message) {
+           flashMessageContainer.textContent = message;
+           setTimeout(() => {
+             flashMessageContainer.textContent = '';
+           }, 5000); // Remove the message after 5000 milliseconds (5 seconds)
+         }
+         
+         fetch('/getWebSocketAddress')
+           .then(response => response.json())
+           .then(data => {
+             const wsAddress = `ws://${data.ip}:${data.port}`;
+             const ws = new WebSocket(wsAddress);
+         
+             ws.onmessage = (event) => {
+               const message = event.data;
+               displayFlashMessage(message); // Display the received message
+             };
+           })
+                // Function to fetch registered ESP devices and populate the dropdown list
+                function fetchRegisteredDevices() {
+                    fetch('/getDevices')
+                        .then(response => response.json())
+                        .then(data => {
+                            const espList = document.getElementById('espList');
+                            espList.innerHTML = '<option value="">Select an ESP</option>'; // Clear existing list and add the default option
+                            data.forEach(device => {
+                                const option = document.createElement('option');
+                                option.value = device;
+                                option.text = device;
+                                espList.appendChild(option);
+                            });
+                        })
+                        .catch(error => console.error('Error fetching devices:', error));
+                }
+                
+                // Function to fetch firmware version for the selected ESP
+                function fetchFirmwareVersion() {
+                    const selectedESP = espList.value;
+                    if (!selectedESP) {
+                        return;
+                    }
+                
+                    fetch('/getFirmwareVersion?hostName=' + encodeURIComponent(selectedESP))
+                        .then(response => response.text())
+                        .then(version => {
+                            const firmwareVersionLabel = document.getElementById('firmwareVersion');
+                            firmwareVersionLabel.innerText = 'Firmware Version: ' + version;
+                        })
+                        .catch(error => console.error('Error fetching firmware version:', error));
+                }
+                
+                // Function to upload firmware to the Node.js server and initiate firmware flashing
+                function uploadAndFlashFirmware() {
+                    const fileInput = document.getElementById('firmware');
+                    const selectedFile = fileInput.files[0];
+                    if (!selectedFile) {
+                        alert('Please select a firmware file.');
+                        return;
+                    }
+                
+                    const formData = new FormData();
+                    formData.append('firmwareFile', selectedFile);
+                
+                    const selectedESP = espList.value;
+                    if (!selectedESP) {
+                        alert('Please select an ESP from the list.');
+                        return;
+                    }
+                
+                    fetch('/upload?hostName=' + encodeURIComponent(selectedESP), {
+                        method: 'POST',
+                        body: formData
+                    })
+                        .then(response => {
+         if (response.ok) {
+         // Display a success message
+         const notification = document.getElementById('notification');
+         notification.innerHTML = 'Firmware upload successful. Starting OTA update...';
+         notification.style.backgroundColor = 'green';
+         notification.style.display = 'block';
+         
+         // Start the OTA update after a brief delay (e.g., 2 seconds)
+         setTimeout(() => {
+         fetch('/flash-firmware?hostName=' + encodeURIComponent(selectedESP))
+            .then(response => {
+                if (response.ok) {
+                    // Optionally, you can display another success message here
+                } else {
+                    // Optionally, display an error message here
+                }
+            })
+            .catch(error => console.error('Error initiating firmware flashing:', error));
+         
+         // Hide the notification after the OTA update is initiated
+         notification.style.display = 'none';
+         }, 2000); // Adjust the delay as per your requirement
+         } else {
+         // Display an error message
+         const notification = document.getElementById('notification');
+         notification.innerHTML = 'Firmware upload failed.';
+         notification.style.backgroundColor = 'red';
+         notification.style.display = 'block';
+         }
+                        })
+                        .catch(error => console.error('Error uploading firmware:', error));
+                }
+                
+                // Function to fetch online status and firmware version for all registered devices
+                function fetchDeviceStatus() {
+                    fetch('/getOnlineStatus')
+                        .then(response => response.json())
+                        .then(deviceStatusList => {
+                            const deviceList = document.getElementById('deviceList');
+                            const totalDevicesCount = document.getElementById('totalDevicesCount');
+                            const onlineDevicesCount = document.getElementById('onlineDevicesCount');
+                            const offlineDevicesCount = document.getElementById('offlineDevicesCount');
+                
+                            deviceList.innerHTML = ''; // Clear existing list
+                
+                            const defaultDeviceLimit = 6;
+                            let deviceCounter = 0;
+                            let onlineCounter = 0;
+                            let offlineCounter = 0;
+                
+                            deviceStatusList.forEach(deviceStatus => {
+                                if (deviceCounter < defaultDeviceLimit) {
+                                    appendDeviceInfo(deviceList, deviceStatus);
+                                }
+                                deviceCounter++;
+                
+                                if (deviceStatus.online) {
+                                    onlineCounter++;
+                                } else {
+                                    offlineCounter++;
+                                }
+                            });
+                
+                            totalDevicesCount.innerText = deviceCounter;
+                            onlineDevicesCount.innerText = onlineCounter;
+                            offlineDevicesCount.innerText = offlineCounter;
+                
+                            const showAllBtn = document.querySelector('.show-all-btn');
+                            if (deviceCounter > defaultDeviceLimit) {
+                                showAllBtn.style.display = 'block';
+                            } else {
+                            }
+                        })
+                        .catch(error => console.error('Error fetching device status:', error));
+                }
+                
+                // Function to append device information to the deviceList div
+                function appendDeviceInfo(deviceList, deviceStatus) {
+                    const deviceInfo = document.createElement('div');
+                    deviceInfo.classList.add('device-info');
+                    deviceInfo.innerHTML = `
+                        <p>Device: ${deviceStatus.device}</p>
+                        <p>Status: <span class="${deviceStatus.online ? 'online' : 'offline'}">${deviceStatus.online ? 'Online' : 'Offline'}</span></p>
+                        <p>Firmware Version: ${deviceStatus.firmwareVersion}</p>
+                        <p>Signal: <span class="signal-strength">${deviceStatus.wifiSignalStrength !== undefined ? deviceStatus.wifiSignalStrength : 'N/A'}</span></p>
+                        <p>MAC: ${deviceStatus.macAddress}</p>
+                        <p>IP Address: ${deviceStatus.ipAddress !== undefined ? deviceStatus.ipAddress : 'N/A'}</p>
+                    `;
+                    deviceList.appendChild(deviceInfo);
+                }
+                
+                // Function to toggle the devices layer visibility
+                function toggleRegisteredDevices() {
+                const devicesLayer = document.getElementById('devicesLayer');
+                const showAllBtn = document.querySelector('.show-all-btn');
+                
+                if (devicesLayer.style.display === 'block') {
+                devicesLayer.style.display = 'none';
+                } else {
+                devicesLayer.style.display = 'block';
+                }
+                }
+                
+                
+                // Function to populate the devices layer with all registered devices and refresh every 10 seconds
+                function populateDevicesLayer() {
+                    const devicesLayer = document.getElementById('devicesLayer');
+                    devicesLayer.innerHTML = `
+                        <div class="devices-container">
+                            <!-- Dynamically display all registered devices here -->
+                        </div>
+                        <button onclick="toggleRegisteredDevices()">Close</button>
+                    `;
+                
+                    const devicesContainer = devicesLayer.querySelector('.devices-container');
+                
+                    // Function to update the devices layer with device information
+                    function updateDevicesLayer() {
+                        fetch('/getOnlineStatus')
+                            .then(response => response.json())
+                            .then(deviceStatusList => {
+                                devicesContainer.innerHTML = ''; // Clear existing list
+                                deviceStatusList.forEach(deviceStatus => {
+                                    appendDeviceInfo(devicesContainer, deviceStatus);
+                                });
+                            })
+                            .catch(error => console.error('Error fetching device status:', error));
+                    }
+                
+                    // Call the updateDevicesLayer function initially
+                    updateDevicesLayer();
+                
+                    // Set interval to update the devices layer every 10 seconds
+                    setInterval(updateDevicesLayer, 10000);
+                }
+                         // Function to prompt password and flash firmware
+                function promptPasswordAndFlash() {
+                   const password = prompt('Enter password:'); // Prompt the user for password
+                
+                   if (password === null || password === '') {
+                      // User canceled or entered an empty password
+                      return;
+                   }
+                
+                   // Send the password to the Node.js server for authentication
+                   fetch('/authenticate', {
+                      method: 'POST',
+                      headers: {
+                         'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({ password: password })
+                   })
+                   .then(response => {
+                      if (response.ok) {
+                         // Password is correct, proceed with firmware flashing
+                         uploadAndFlashFirmware();
+                      } else {
+                         // Password is incorrect, show an error message
+                         alert('Incorrect password. Firmware flashing canceled.');
+                      }
+                   })
+                   .catch(error => console.error('Error authenticating password:', error));
+                }
+                // Function to prompt password and flush all devices
+                function promptPasswordAndFlushAll() {
+                   const password = prompt('Enter password:'); // Prompt the user for password
+                
+                   if (password === null || password === '') {
+                      // User canceled or entered an empty password
+                      return;
+                   }
+                
+                   // Send the password to the Node.js server for authentication
+                   fetch('/authenticate', {
+                      method: 'POST',
+                      headers: {
+                         'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({ password: password })
+                   })
+                   .then(response => {
+                      if (response.ok) {
+                         // Password is correct, proceed with flushing all devices
+                         flushAllDevices();
+                      } else {
+                         // Password is incorrect, show an error message
+                         alert('Incorrect password. Flushing all devices canceled.');
+                      }
+                   })
+                   .catch(error => console.error('Error authenticating password:', error));
+                }
+                // Function to prompt password and flush all devices
+                function promptPasswordAndFlushAll() {
+                   const password = prompt('Enter password:'); // Prompt the user for password
+                
+                   if (password === null || password === '') {
+                      // User canceled or entered an empty password
+                      return;
+                   }
+                
+                   // Send the password to the Node.js server for authentication
+                   fetch('/authenticate', {
+                      method: 'POST',
+                      headers: {
+                         'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({ password: password })
+                   })
+                   .then(response => {
+                      if (response.ok) {
+                         // Password is correct, proceed with flushing all devices
+                         flushAllDevices();
+                      } else {
+                         // Password is incorrect, show an error message
+                         alert('Incorrect password. Flushing all devices canceled.');
+                      }
+                   })
+                   .catch(error => console.error('Error authenticating password:', error));
+                }
+                // Call the fetchRegisteredDevices and fetchDeviceStatus functions on page load
+                fetchRegisteredDevices();
+                fetchDeviceStatus();
+                
+                // Set interval to update device status every 10 seconds
+                setInterval(fetchDeviceStatus, 10000);
+                
+                   // Function to flush all registered devices
+                function flushAllDevices() {
+                   fetch('/flushAllDevices', {
+                      method: 'POST'
+                   })
+                   .then(response => {
+                      if (response.ok) {
+                         alert('All registered devices have been flushed.');
+                         fetchRegisteredDevices();
+                         fetchDeviceStatus();
+                      } else {
+                         alert('Failed to flush registered devices.');
+                      }
+                   })
+                   .catch(error => console.error('Error flushing registered devices:', error));
+                }
+                
+                // Call the function to populate the devices layer when the page loads
+                populateDevicesLayer();
+                function logout() {
+                    fetch('/logout', {
+                        method: 'POST'
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                window.location.href = '/'; // Redirect to the login page
+                            }
+                        })
+                        .catch(error => console.error('Error logging out:', error));
+                }
+         // Add a function to fetch the server version and display it on the page
+         async function fetchServerVersion() {
+         try {
+         const response = await fetch('/getServerVersion');
+         if (response.ok) {
+         const serverVersion = await response.text();
+         const versionElement = document.getElementById('serverVersion');
+         versionElement.textContent = `Server Version: ${serverVersion}`;
+         } else {
+         console.error('Failed to fetch server version:', response.status, response.statusText);
+         }
+         } catch (error) {
+         console.error('Error fetching server version:', error.message);
+         }
+         }
+         // Add an event listener to the "Select ESP" dropdown list to call fetchRegisteredDevices
+         document.addEventListener('DOMContentLoaded', () => {
+            const espDropdown = document.getElementById('espList');
+            let isFocused = false;
+         
+            // For Chrome and other browsers
+            espDropdown.addEventListener('focus', () => {
+               isFocused = true;
+               fetchRegisteredDevices();
+            });
+         
+            espDropdown.addEventListener('blur', () => {
+               isFocused = false;
+            });
+         
+            // For Firefox
+            if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+               espDropdown.addEventListener('click', (event) => {
+                  if (isFocused) {
+                     event.preventDefault();
+                     event.stopPropagation();
+                     espDropdown.focus();
+                  }
+               });
+            }
+         });
+         // Call the fetchServerVersion function when the page is loaded
+         document.addEventListener('DOMContentLoaded', fetchServerVersion);
+      </script>
+   </body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESP OTA Dashboard</title>
+  <style>
+    /* Your dark theme CSS styles go here */
+    body {
+      background-color: #1a1a1a;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    /* Add the following CSS style for the canvas element */
+    #canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .dashboard-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.6); /* White glass background color */
+      padding: 80px;
+      border-radius: 8px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Raised glass effect */
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: brightness(200%) blur(4px); /* Blurry white glass effect */
+    }
+
+    .animation {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, rgba(229, 57, 53, 0.3), rgba(76, 175, 80, 0.3), rgba(63, 81, 181, 0.3), rgba(229, 57, 53, 0.3));
+      background-size: 400% 400%;
+      animation: gradient-animation 8s linear infinite;
+      z-index: -1;
+      opacity: 0.6; /* Reduced opacity for the RGB effect */
+      backdrop-filter: blur(5px); /* Blurry RGB effect */
+    }
+
+    @keyframes gradient-animation {
+      0%, 100% {
+        background-position: 0% 50%;
+      }
+      25% {
+        background-position: 100% 50%;
+      }
+      50% {
+        background-position: 0% 100%;
+      }
+      75% {
+        background-position: 100% 100%;
+      }
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      text-align: left;
+      width: 100%;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      background-color: rgba(0, 0, 0, 0.6); /* Blurry white glass background for input fields */
+      backdrop-filter: brightness(190%) blur(1px); /* Blurry white glass effect for input fields */
+      border: none;
+      border-radius: 4px;
+      color: #ffffff;
+    }
+
+    button {
+      width: 150px;
+      padding: 12px;
+      background-color: #007bff;
+      color: #ffffff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-size: 16px;
+      backdrop-filter: brightness(120%) blur(1px); /* Blurry white glass effect for the button */
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    /* Transparent effect */
+    .transparent-bg {
+      background-color: transparent;
+    }
+
+    /* Add CSS for error message display */
+    .error-message {
+      color: #ff0000;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    /* Media Query for mobile view */
+    @media screen and (max-width: 600px) {
+      .container {
+        padding: 20px;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+
+      .dashboard-title {
+        font-size: 20px;
+      }
+
+      .form-group label,
+      button {
+        font-size: 14px;
+        padding: 8px;
+      }
+
+      .error-message {
+        margin-top: 5px;
+        font-size: 12px;
+      }
+
+      .animation {
+        animation-duration: 12s;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Add the canvas element to the body -->
+  <canvas id="canvas"></canvas>
+
+  <div class="container transparent-bg">
+    <div class="dashboard-title">ESP OTA Dashboard</div>
+    <div class="animation"></div>
+    <h1>Login</h1>
+    <form id="loginForm" action="/login" method="POST">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit">Login</button>
+      <div id="error" class="error-message"></div> <!-- Add a placeholder element for the error message -->
+    </form>
+  </div>
+
+  <!-- Add the JavaScript code for the canvas animation -->
+  <script>
+    var canvas = document.getElementById("canvas"),
+      ctx = canvas.getContext('2d');
+
+    // Function to handle window resize
+    function handleResize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      // Recreate stars with new positions
+      stars = [];
+      for (var i = 0; i < x; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 1 + 1,
+          vx: Math.floor(Math.random() * 50) - 25,
+          vy: Math.floor(Math.random() * 50) - 25
+        });
+      }
+    }
+
+    // Push stars to array
+    var stars = [], // Array that contains the stars
+      FPS = 60, // Frames per second
+      x = 100, // Number of stars
+      mouse = {
+        x: 0,
+        y: 0
+      }; // mouse location
+
+    for (var i = 0; i < x; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() * 1 + 1,
+        vx: Math.floor(Math.random() * 50) - 25,
+        vy: Math.floor(Math.random() * 50) - 25
+      });
+    }
+
+    // Draw the scene
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      ctx.globalCompositeOperation = "lighter";
+
+      for (var i = 0, x = stars.length; i < x; i++) {
+        var s = stars[i];
+
+        ctx.fillStyle = "#fff";
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.radius, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.fillStyle = 'black';
+        ctx.stroke();
+      }
+
+      ctx.beginPath();
+      for (var i = 0, x = stars.length; i < x; i++) {
+        var starI = stars[i];
+        ctx.moveTo(starI.x, starI.y);
+        if (distance(mouse, starI) < 150) ctx.lineTo(mouse.x, mouse.y);
+        for (var j = 0, x = stars.length; j < x; j++) {
+          var starII = stars[j];
+          if (distance(starI, starII) < 150) {
+            ctx.lineTo(starII.x, starII.y);
+          }
+        }
+      }
+      ctx.lineWidth = 0.05;
+      ctx.strokeStyle = 'white';
+      ctx.stroke();
+    }
+
+    function distance(point1, point2) {
+      var xs = 0;
+      var ys = 0;
+
+      xs = point2.x - point1.x;
+      xs = xs * xs;
+
+      ys = point2.y - point1.y;
+      ys = ys * ys;
+
+      return Math.sqrt(xs + ys);
+    }
+
+    // Update star locations
+    function update() {
+      for (var i = 0, x = stars.length; i < x; i++) {
+        var s = stars[i];
+
+        s.x += s.vx / FPS;
+        s.y += s.vy / FPS;
+
+        if (s.x < 0 || s.x > canvas.width) s.vx = -s.vx;
+        if (s.y < 0 || s.y > canvas.height) s.vy = -s.vy;
+      }
+    }
+
+    canvas.addEventListener('mousemove', function (e) {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    // Listen for window resize event
+    window.addEventListener('resize', handleResize);
+
+    // Listen for DOMContentLoaded event to handle initial sizing
+    document.addEventListener('DOMContentLoaded', handleResize);
+
+    // Start animation
+    function tick() {
+      draw();
+      update();
+      requestAnimationFrame(tick);
+    }
+    tick();
+
+    // JavaScript code to handle form submission and error message display
+    const loginForm = document.getElementById('loginForm');
+    const errorMessageElement = document.getElementById('error');
+
+    loginForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      // Get the username and password values from the form fields
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      // Log the values to check if they are correct
+      console.log('Username:', username);
+      console.log('Password:', password);
+
+      // Send the login credentials as JSON data
+      const response = await fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+      });
+
+      if (response.ok) {
+        window.location.href = '/index.html';
+      } else {
+        const errorMessage = await response.text();
+        errorMessageElement.textContent = errorMessage;
+      }
+    });
+  </script>
+</body>
+
+</html>
