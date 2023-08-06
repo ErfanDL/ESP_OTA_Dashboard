@@ -77,7 +77,7 @@ Prerequisites
 
 5. Install the required Node.js packages:
 
-`npm install http path fs express body-parser multer express-session ws`
+`npm install http path fs express body-parser multer express-session ws express-ws`
 
 6. In the terminal, run the Node.js app using the following command:
 
