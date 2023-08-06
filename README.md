@@ -23,6 +23,7 @@ an efficient and user friendly OTA server equipped with a powerful WEB UI, desig
 
 # Features
 - Lightweight Node.js server
+- Run Remote Command on ESP8266 and ESP32 Devices
 - Support both ESP8266 and ESP32
 - User friendly WEB UI to manage Firmware updates remotely
 - Secure frontend login page by username and password
