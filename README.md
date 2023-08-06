@@ -140,15 +140,15 @@ you can flash the firmware through the Web UI by exporting the BIN firmware file
 
 1. Select the bin file by clicking the Upload Firmware button
 
-![](/doc/upload.jpg)
+![](/doc/uploadf.jpg)
 
 2. Select your ESP from the devices list:
 
-![](/doc/select.jpg)
+![](/doc/selectf.jpg)
 
 3. Click the Flash Firmware button and enter the Password to start OTA process
 
-![](/doc/flash.jpg)
+![](/doc/flashf.jpg)
 
 # Misc
 If you like my work and want to support me, you can send me a donation via crypto:
