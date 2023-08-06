@@ -46,6 +46,8 @@ By default, 6 registered devices are displayed. If you have more than 6 devices,
 ![](doc/main.jpg)
 - Show All Devices
 ![](doc/devman.jpg)
+- Command Sender
+![](doc/command.jpg)
 
 # Server installation
 Prerequisites
