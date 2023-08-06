@@ -41,7 +41,7 @@ By default, 6 registered devices are displayed. If you have more than 6 devices,
 
 # Screenshots
 - Login page
-![](doc/login.png)
+![](doc/NewLogin.jpg)
 - OTA and Devices
 ![](doc/devices.jpg)
 - Show All Devices
