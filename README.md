@@ -48,6 +48,12 @@ By default, 6 registered devices are displayed. If you have more than 6 devices,
 ![](doc/devman.jpg)
 - Command Sender
 ![](doc/command.jpg)
+- Mobile UI
+<div align="center">
+  <img src="doc/mobmain.jpg" width="300" alt="Mobile Main">
+  <img src="doc/mobdevman.jpg" width="300" alt="Mobile Dev Man">
+  <img src="doc/mobui.jpg" width="300" alt="Mobile UI">
+</div>
 
 # Server installation
 Prerequisites
