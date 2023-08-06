@@ -45,7 +45,7 @@ By default, 6 registered devices are displayed. If you have more than 6 devices,
 - OTA and Devices
 ![](doc/main.jpg)
 - Show All Devices
-![](doc/all.jpg)
+![](doc/devman.jpg)
 
 # Server installation
 Prerequisites
