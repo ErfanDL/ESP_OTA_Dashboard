@@ -150,6 +150,10 @@ you can flash the firmware through the Web UI by exporting the BIN firmware file
 
 ![](/doc/flashf.jpg)
 
+4. If everything is done correctly, you should see **Received Firmware OTA** message
+
+![](/doc/OK.jpg)
+
 # Misc
 If you like my work and want to support me, you can send me a donation via crypto:
 
