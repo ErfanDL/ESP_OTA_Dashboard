@@ -90,12 +90,12 @@ Open a web browser and visit **http://localhost:3000** to access the WEB UI.
 # Default Username and Password for the Login page
 Default Username and Password for the login page are: **admin**
 
-You can change the default Username and Password by editing lines 133 and 134 in the index.js server file.
+You can change the default Username and Password by editing lines 142 and 143 in the index.js server file.
 
 # Default Password for Flash Firmware and Flush All Devices
 The default Password for Flash Firmware and Flush All Devices is: **admin**
 
-You can also modify it on line 156 in the index.js server file.
+You can also modify it on line 176 in the index.js server file.
 
 # Arduino instruction
 
